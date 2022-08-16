@@ -1,0 +1,9 @@
+version: "0.1.0"
+
+services:
+  jenkins-node-test:
+    image: ehdudtkatka/jenkins-node-test:1dcf8561d
+    container_name: jenkins-node-test
+    restart: always
+    ports:
+      - "3000:3000"
