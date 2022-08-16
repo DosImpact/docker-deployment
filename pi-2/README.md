@@ -1,4 +1,4 @@
-# Welcome PI - DB Server
+# PI - 2 : DB & Redis Server
 
 ## 5000
 

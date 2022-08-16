@@ -1,0 +1,26 @@
+version: "0.1.0"
+
+services:
+  jenkins-docker:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: jenkins-docker
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/ubuntu/workspace/jenkins_home:/var/jenkins_home
+    ports:
+      - "8000:8080"
+      - "50000:50000"
+    user: root
+
+  portainer:
+    image: portainer/portainer-ce
+    container_name: portainer
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /portainer_data:/data
+    ports:
+      - "9000:9000"
