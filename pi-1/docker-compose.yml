@@ -1,0 +1,25 @@
+version: "0.1.0"
+
+services:
+  redis_q:
+    image: redis:latest
+    container_name: redis_q
+    restart: always
+    ports:
+      - "6000:6379"
+    command:
+      - /bin/sh
+      - -c
+      - redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
+    env_file: .env
+  redis_algoridang:
+    image: redis:latest
+    container_name: redis_algoridang
+    restart: always
+    ports:
+      - "7000:6379"
+    command:
+      - /bin/sh
+      - -c
+      - redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
+    env_file: .en
