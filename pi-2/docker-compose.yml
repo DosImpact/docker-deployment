@@ -1,0 +1,33 @@
+version: "0.1.0"
+
+services:
+  algoridang_db:
+    image: postgres:13
+    container_name: algoridang_db
+    restart: always
+    volumes:
+      - /algoridang_db:/var/lib/postgresql/data
+    ports:
+      - "5000:5432"
+    environment:
+      - POSTGRES_PASSWORD=dosimpact
+  algoridang_price:
+    image: postgres:13
+    container_name: algoridang_price
+    restart: always
+    volumes:
+      - /algoridang_price:/var/lib/postgresql/data
+    ports:
+      - "6000:5432"
+    environment:
+      - POSTGRES_PASSWORD=dosimpact
+  node_db:
+    image: mysql/mysql-server
+    container_name: node_db
+    restart: always
+    volumes:
+      - /home/ubuntu/workspace/node_db:/var/lib/mysql
+    ports:
+      - "7000:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=dosimpact
