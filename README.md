@@ -20,10 +20,17 @@
 2. 구독중인 docker-compose.yml 변경되면   
 3. 스택에 맞게 재베포
 
-## node
 
+## dir 구조
 
-## stacks 
+```
+/node-init : 노드에 기본셋팅된 docker containers
 
-- 베포할 컨테이너를 docker-compose 파일로 명세.  
-- 노드의 portainer을 통해 stack을 선택 후 베포.  
+/stacks
+    - 베포할 컨테이너를 docker-compose 파일로 명세.  
+    - 노드의 portainer을 통해 stack을 선택 후 베포.  
+
+/template
+    - application or infra container
+
+```
