@@ -13,6 +13,10 @@ PI-2 DB 서버를 담당
 - algoridang_react
 - sudo npx serve -l tcp://0.0.0.0:80
 
+## 2000
+
+## 3000
+
 ## 4000
 - algoridang_nestjs
 
@@ -24,7 +28,6 @@ PI-2 DB 서버를 담당
 
 ## 7000
 - redis_algoridang_q_dev
-
 
 ## 8000
 - S3Clone StaticServing
