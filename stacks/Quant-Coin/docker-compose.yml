@@ -2,7 +2,7 @@ version: "0.1.0"
 
 services:
   web_server:
-    image: ehdudtkatka/quant-coin-web:b8200de
+    image: ehdudtkatka/quant-coin-web:ab3ef18
     container_name: web_server
     restart: always
     ports:
@@ -14,7 +14,7 @@ services:
       - SERVER_URI_PANDAS=${SERVER_URI_PANDAS}
 
   pandas_server:
-    image: ehdudtkatka/quant-coin-pandas:b8200de
+    image: ehdudtkatka/quant-coin-pandas:ab3ef18
     container_name: pandas_server
     restart: always
     ports:
