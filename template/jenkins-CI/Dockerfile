@@ -1,7 +1,7 @@
 FROM jenkins/jenkins:lts
 USER root
 
-# choose x86_64, aarch64
+# choose(uname -m) x86_64, aarch64
 RUN mkdir -p /tmp/download && \
  curl -L https://download.docker.com/linux/static/stable/x86_64/docker-18.03.1-ce.tgz | tar -xz -C /tmp/download && \
  rm -rf /tmp/download/docker/dockerd && \

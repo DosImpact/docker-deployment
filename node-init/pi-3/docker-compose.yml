@@ -1,0 +1,71 @@
+version: "0.1.0"
+
+services:
+  redis_session:
+    image: redis:latest
+    container_name: redis_session
+    restart: always
+    ports:
+      - "3000:6379"
+    command:
+      - /bin/sh
+      - -c
+      - redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
+    # env_file: .env
+  mysql_session:
+    image: mysql/mysql-server
+    container_name: mysql_session
+    restart: always
+    volumes:
+      - /volume_mysql:/var/lib/mysql
+    ports:
+      - "5000:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=dosimpact
+
+  postgre_session:
+    image: postgres:13
+    container_name: postgre_session
+    restart: always
+    volumes:
+      - /volume_postgre:/var/lib/postgresql/data
+    ports:
+      - "6000:5432"
+    environment:
+      - POSTGRES_PASSWORD=dosimpact
+
+  mongodb_session:
+    image: mongo:4.0.4
+    container_name: mongodb_session
+    restart: always
+    ports:
+      - "7000:27017"
+    volumes:
+      - /mongodata:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=dosimpact
+      - MONGO_INITDB_ROOT_PASSWORD=123123
+    command: [--auth]
+
+  mongo-admin:
+    image: mongo-express:latest
+    container_name: mongo-admin
+    restart: always
+    ports:
+      - "8000:8081"
+    environment:
+      - ME_CONFIG_MONGODB_URL=mongodb://dosimpact:123123@dosimpact.iptime.org:27000
+    depends_on:
+      - mongodb_session
+
+  portainer:
+    image: portainer/portainer-ce
+    container_name: portainer
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /volume_portainer:/data
+    ports:
+      - "9000:9000"
+# docker-compose --env-file ./.env up -d
+

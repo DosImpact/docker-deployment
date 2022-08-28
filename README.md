@@ -5,7 +5,6 @@
 - docker 컨테이너 관리
 
 
-
 ## CI Process
 
 1. 로컬 커밋 이후 원격 코드 저장소에 푸쉬가 발생 (master 브랜치 등)
@@ -21,3 +20,17 @@
 2. 구독중인 docker-compose.yml 변경되면   
 3. 스택에 맞게 재베포
 
+
+## dir 구조
+
+```
+/node-init : 노드에 기본셋팅된 docker containers
+
+/stacks
+    - 베포할 컨테이너를 docker-compose 파일로 명세.  
+    - 노드의 portainer을 통해 stack을 선택 후 베포.  
+
+/template
+    - application or infra container
+
+```
