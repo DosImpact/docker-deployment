@@ -1,0 +1,44 @@
+version: "0.1.0"
+
+services:
+  web_server:
+    image: ehdudtkatka/quant-coin-web
+    container_name: web_server
+    restart: always
+    ports:
+      - "${WEB_PORT}:3000"
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    env_file: .env
+    environment: 
+      - REACT_APP_SERVER_PANDAS=${REACT_APP_SERVER_PANDAS}
+
+  pandas_server:
+    image: ehdudtkatka/quant-coin-pandas
+    container_name: pandas_server
+    restart: always
+    ports:
+      - "${PANDAS_PORT}:4000"
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    env_file: .env
+    environment: 
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - PORT=4000
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: always
+    ports:
+      - "${REDIS_HOST}:6379"
+    command:
+      - /bin/sh
+      - -c
+      - redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
+    env_file: .env
+
+# docker-compose --env-file ./.env up -d
+# docker-compose up -d --build
