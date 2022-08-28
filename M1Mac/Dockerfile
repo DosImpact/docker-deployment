@@ -14,3 +14,4 @@ RUN apt-get update
 RUN apt-get -y install sudo
 
 USER jenkins
+# ENV HELLO 1234
