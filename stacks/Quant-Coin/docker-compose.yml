@@ -2,7 +2,7 @@ version: "0.1.0"
 
 services:
   web_server:
-    image: ehdudtkatka/quant-coin-web:0.1.1
+    image: ehdudtkatka/quant-coin-web:0.1.2
     container_name: web_server
     restart: always
     ports:
