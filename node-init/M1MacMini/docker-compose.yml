@@ -46,3 +46,51 @@ services:
       - -c
       - redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
     env_file: .env
+  postgres_db:
+    image: postgres:13
+    container_name: postgres_db
+    restart: always
+    volumes:
+      - ${POSTGRES_VOLUME_DIR}:/var/lib/postgresql/data
+    ports:
+      - "8500:5432"
+    environment:
+      - POSTGRES_PASSWORD=dosimpact
+  mysql_db:
+    platform: linux/x86_64    # Mac m1, but using amd
+    image: mysql:5.7
+    restart: always
+    command: --lower_case_table_names=1 # only lower case allow
+    container_name: mysql_db
+    ports:
+      - "8600:3306"
+    environment: 
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}  # MYSQL 패스워드 설정 옵션
+    command:
+      - --character-set-server=utf8mb4        # utf8mb4
+      - --collation-server=utf8mb4_unicode_ci # utf8mb4 정렬
+    volumes:
+      - ${MYSQL_VOLUME_DIR}:/var/lib/mysql
+  mongodb:
+    image: mongo:4.0.4
+    container_name: mongodb
+    restart: always
+    ports:
+      - "8700:27017"
+    volumes:
+      - ${MONGO_VOLUME_DIR}:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INIT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INIT_PASSWORD}
+    command: [--auth]
+  mongo-admin:
+    image: mongo-express:latest
+    container_name: mongo-admin
+    restart: always
+    ports:
+      - "8701:8081"
+    environment:
+      - ME_CONFIG_MONGODB_URL=${ME_CONFIG_MONGODB_URL}
+      - ME_CONFIG_BASICAUTH_PASSWORD=${ME_CONFIG_BASICAUTH_PASSWORD}
+    depends_on:
+      - mongodb

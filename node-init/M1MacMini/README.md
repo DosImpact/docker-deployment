@@ -5,10 +5,15 @@
   - [mysql](#mysql)
   - [postgreSQL](#postgresql)
   - [redis](#redis)
-  - [sonar qube](#sonar-qube)
   - [Jenkins](#jenkins)
   - [Portainer](#portainer)
+  - [WIP - sonarqube](#wip---sonarqube)
+  - [WIP - prom](#wip---prom)
+  - [WIP - cadviser](#wip---cadviser)
+  - [WIP - grafana](#wip---grafana)
 - [Note](#note)
+  - [jenkins](#jenkins-1)
+  - [mysql:8.0](#mysql80)
 
 
 
@@ -30,6 +35,10 @@ Portainer     9900
 Jenkins       9901
 redis_cache   8000
 redis_session 8001
+postgres      8500
+mysql         8600
+mongodb       8700
+mongodb-admin 8701
 
 ```
 
@@ -74,7 +83,13 @@ services:
 
 
 ```
+
+
+
+
 ## redis
+
+- redis-cli -h dosimpact-2.iptime.org -p 8000 -a <PASSWORD>
 
 ```yml
 
@@ -95,7 +110,6 @@ services:
 ```
 
 
-## sonar qube
 
 ## Jenkins
 
@@ -165,11 +179,81 @@ services:
     env_file: .env
 ```
 
+
+## WIP - sonarqube
+
+## WIP - prom
+
+## WIP - cadviser
+
+## WIP - grafana
+
+
+
 # Note
 
-jenkins  
+## jenkins  
 
   - 아키텍쳐 변경
       - uname -m // aarch64
           uname에 맞는 아키텍쳐 설치파일이 필요하다. 이를 docker file 의 env로 주고 싶다.
   - 초기 비밀번호 파일이 안만들어져서, docker lgos를 찔르니 보임.
+
+
+## mysql:8.0
+
+```
+sudo mkdir node_db
+docker pull mysql/mysql-server
+
+docker run -d \
+    -p 7000:3306 \
+    -e MYSQL_ROOT_PASSWORD=dosimpact \
+    -v /home/ubuntu/workspace/node_db:/var/lib/mysql \
+    --name node_db \
+    --restart always mysql/mysql-server
+
+docker exec -it node_db mysql -uroot -p
+
+show databases;
+
+// mysql은 localhost 만 허용을 한다.
+create user 'root'@'221.153.254.18' identified by 'dosimpact';
+create user 'root'@'192.168.0.1' identified by 'dosimpact';
+flush privileges;
+
+// 결과
+
+use mysql;
+select host, user from user;
++----------------+------------------+
+| host           | user             |
++----------------+------------------+
+| 192.168.0.1    | root             |
+| 221.153.254.18 | root             |
+| localhost      | healthchecker    |
+| localhost      | mysql.infoschema |
+| localhost      | mysql.session    |
+| localhost      | mysql.sys        |
+| localhost      | root             |
++----------------+------------------+
+7 rows in set (0.00 sec)
+
+--- version
+
+mysql> SELECT VERSION();
++-----------+
+| VERSION() |
++-----------+
+| 8.0.28    |
++-----------+
+
+docker pull mysql/mysql-server:5.7
+```
+
+docker run -d \
+ -p 8000:3306 \
+ -e MYSQL_ROOT_PASSWORD=dosimpact \
+ -v /home/ubuntu/workspace/node_db_5:/var/lib/mysql \
+ --name node_db_5 \
+ --restart always mysql/mysql-server:5.7
