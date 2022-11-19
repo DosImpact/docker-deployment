@@ -83,14 +83,15 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_INIT_USERNAME}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INIT_PASSWORD}
     command: [--auth]
-  mongo-admin:
+  mongo-express:
     image: mongo-express:latest
-    container_name: mongo-admin
+    container_name: mongo-express
     restart: always
     ports:
       - "8701:8081"
     environment:
       - ME_CONFIG_MONGODB_URL=${ME_CONFIG_MONGODB_URL}
       - ME_CONFIG_BASICAUTH_PASSWORD=${ME_CONFIG_BASICAUTH_PASSWORD}
+      - ME_CONFIG_BASICAUTH_USERNAME=${ME_CONFIG_BASICAUTH_USERNAME}
     depends_on:
       - mongodb
