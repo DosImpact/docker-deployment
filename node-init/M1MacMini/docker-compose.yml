@@ -1,0 +1,48 @@
+version: "0.1.0"
+
+services:
+  portainer:
+    image: portainer/portainer-ce
+    container_name: portainer
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${PORTAINER_VOLUME_DIR}:/data
+    ports:
+      - "9900:9000"
+    env_file: .env
+  jenkins-docker:
+    build:
+      context: .
+      dockerfile: ./jenkins/Dockerfile
+    container_name: jenkins-docker
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${JENKINS_VOLUME_DIR}:/var/jenkins_home
+    ports:
+      - "9901:8080"
+      - "9902:50000"
+    user: root
+  redis_cache:
+    image: redis:latest
+    container_name: redis_cache
+    restart: always
+    ports:
+      - "8000:6379"
+    command:
+      - /bin/sh
+      - -c
+      - redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
+    env_file: .env
+  redis_session:
+    image: redis:latest
+    container_name: redis_session
+    restart: always
+    ports:
+      - "8001:6379"
+    command:
+      - /bin/sh
+      - -c
+      - redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
+    env_file: .env
