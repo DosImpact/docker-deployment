@@ -55,7 +55,7 @@ services:
     ports:
       - "8500:5432"
     environment:
-      - POSTGRES_PASSWORD=dosimpact
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
   mysql_db:
     platform: linux/x86_64    # Mac m1, but using amd
     image: mysql:5.7
