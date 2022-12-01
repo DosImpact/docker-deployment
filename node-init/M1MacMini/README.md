@@ -5,6 +5,7 @@
   - [mysql](#mysql)
   - [postgreSQL](#postgresql)
   - [redis](#redis)
+  - [redis-commander](#redis-commander)
   - [Jenkins](#jenkins)
   - [Portainer](#portainer)
   - [WIP - sonarqube](#wip---sonarqube)
@@ -31,14 +32,17 @@ REDIS_PASSWORD=dosimpact
 # status
 
 ```
-Portainer     9900
-Jenkins       9901
-redis_cache   8000
-redis_session 8001
-postgres      8500
-mysql         8600
-mongodb       8700
-mongodb-admin 8701
+Portainer         9900
+Jenkins           9901
+
+redis_cache       8000
+redis_session     8001
+redis-commander   8100
+
+postgres          8500
+mysql             8600
+mongodb           8700
+mongodb-admin     8701
 
 ```
 
@@ -110,6 +114,40 @@ services:
 ```
 
 
+## redis-commander
+
+```
+version: "0.1.0"
+
+services:
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: always
+    ports:
+      - "6000:6379"
+    command:
+      - /bin/sh
+      - -c
+      - redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
+    env_file: .env
+  redis-commander:
+    container_name: redis-commander
+    hostname: redis-commander
+    image: rediscommander/redis-commander:latest
+    restart: always
+    environment:
+      - HTTP_USER=admin
+      - HTTP_PASSWORD=${HTTP_PASSWORD}
+      - REDIS_HOST=
+      - REDIS_PORT=6000
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    ports:
+      - "8081:8081"
+# docker-compose --env-file ./.env.dev up -d
+# redis-cli -h 127.0.0.1 -p 5001 -a dosimpact
+
+```
 
 ## Jenkins
 
