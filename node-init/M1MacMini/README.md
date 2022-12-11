@@ -39,6 +39,8 @@ redis_cache       8000
 redis_session     8001
 redis-commander   8100
 
+ytdl              8400
+
 postgres          8500
 mysql             8600
 mongodb           8700

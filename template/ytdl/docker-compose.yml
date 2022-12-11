@@ -1,0 +1,18 @@
+version: "2"
+services:
+  ytdl_material:
+    environment:
+      ALLOW_CONFIG_MUTATIONS: "true"
+      ytdl_mongodb_connection_string: ${YTDL_MONGO_CONNECTION}
+      ytdl_use_local_db: "false"
+      write_ytdl_config: "true"
+    restart: always
+    volumes:
+      - ${YTDL_VOLUME_DIR}/appdata:/app/appdata
+      - ${YTDL_VOLUME_DIR}/audio:/app/audio
+      - ${YTDL_VOLUME_DIR}/video:/app/video
+      - ${YTDL_VOLUME_DIR}/subscriptions:/app/subscriptions
+      - ${YTDL_VOLUME_DIR}/users:/app/users
+    ports:
+      - "${YTDL_PORT}:17442"
+    image: tzahi12345/youtubedl-material:latest
